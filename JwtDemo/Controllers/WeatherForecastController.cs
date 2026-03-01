@@ -5,7 +5,7 @@ namespace JwtDemo.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries =
@@ -13,7 +13,7 @@ namespace JwtDemo.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         ];
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -23,6 +23,13 @@ namespace JwtDemo.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Test()
+        {
+            return Ok("Ciao");
         }
     }
 }
